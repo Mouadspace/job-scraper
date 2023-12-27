@@ -1,4 +1,4 @@
-package components;
+package mswing;
 
 
 import java.awt.AlphaComposite;

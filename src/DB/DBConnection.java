@@ -9,21 +9,16 @@ public class DBConnection {
   private static Connection conn;
 
   public static Connection getConnection() throws SQLException{
-      String dbName = "web-scraper";
-      String url    = "jdbc:mysql://localhost:3306/" + dbName;
-      String userName = "root";
-      String password = "";
-
       try {
           Class.forName("com.mysql.cj.jdbc.Driver");
-          conn = DriverManager.getConnection(url, userName, password);
+          conn = DriverManager.getConnection(Configuration.url, Configuration.userName, Configuration.password);
+          return conn;
           
         } catch (ClassNotFoundException e) {
           e.printStackTrace();
+          return null;
         }
-
-
-        return conn;
   }
+
   
 }
