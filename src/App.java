@@ -1,20 +1,56 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
+import DB.DBConnection;
 import components.CustomButton;
 import components.CustomFrame;
 
-public class App {
+public class App implements ActionListener {
+    Statement statement;
+    CustomButton signupButton;
+    JTextField loginField;
+    JTextField passField;
 
+    // USER
+    public void setUser(String email,String password) throws SQLException{
+        statement.executeUpdate("insert into user (email,password) values('"+email+"','"+password+"')");
+    }
+
+    public boolean checkUser(String email) throws SQLException{
+        String query = "select email from user where email='"+email+"'";
+        ResultSet resultSet = statement.executeQuery(query);
+        boolean isFound = false;
+
+        while (resultSet.next()) {
+            isFound = true;
+        }
+
+        return isFound;
+
+    }
     
-    public App() throws FontFormatException, IOException{
+    public App() throws FontFormatException, IOException, SQLException{
         CustomFrame frame = new CustomFrame();
+
+        Connection conn = DBConnection.getConnection();
+        statement = conn.createStatement();
+
+        // setUser("mohamed","benali");
+        // statement.executeUpdate("insert into user (email,password) values('x','y')");
+        
+       
         
         // FONTS : 
         File font_file = new File("Poppins-Regular.ttf");
@@ -78,7 +114,7 @@ public class App {
         loginLabel.setForeground(new Color(0xC7C7C7));
         loginLabel.setBounds(250,25,50,25);
 
-        JTextField loginField = new JTextField();
+        loginField = new JTextField();
         loginField.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0x6A70E0)));
         // loginField.setBackground(new Color(0, true));
         loginField.setBounds(250,45,300,30);
@@ -89,13 +125,13 @@ public class App {
         passLabel.setForeground(new Color(0xC7C7C7));
         passLabel.setBounds(250,100,100,25);
         
-        JTextField passField = new JTextField();
+        passField = new JTextField();
         passField.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,new Color(0x6A70E0)));
         passField.setBounds(250,120,300,30);
         // passField.setBackground(new Color(0, true));
         
         
-        CustomButton signupButton = new CustomButton();    
+        signupButton = new CustomButton();    
         signupButton.setBackground(new Color(0x6A70E0));
         // signupButton.setForeground(new Color(0xBEBEF2));
         signupButton.setForeground(Color.WHITE);
@@ -103,6 +139,7 @@ public class App {
         signupButton.setFocusable(false);
         signupButton.setBorder(BorderFactory.createEmptyBorder(10, 60, 10, 60));
         signupButton.setBounds(250, 180, 300, 40);
+        signupButton.addActionListener(this);
 
         JLabel bLabel = new JLabel("Already a member?");
         bLabel.setFont(labelMedium);
@@ -157,5 +194,25 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         new App();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        if(event.getSource() == signupButton ){
+        try {
+            boolean userExist = checkUser(loginField.getText()) ;
+            if (!userExist) {
+                setUser(loginField.getText(), passField.getText());
+                loginField.setText("");
+                passField.setText("");
+            }
+
+            // signupButton.setEnabled(false);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
     }
 }
