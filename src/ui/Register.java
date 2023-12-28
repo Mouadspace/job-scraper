@@ -3,10 +3,13 @@ package ui;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Random;
 import java.util.regex.Pattern;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -14,19 +17,23 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
+import org.w3c.dom.events.MouseEvent;
+
 import model.User;
 import mswing.CustomButton;
 import mswing.CustomFrame;
 
 
-public class Register implements ActionListener{
+public class Register implements ActionListener, MouseListener{
 
+  CustomFrame frame;
   JTextField loginField;
   JTextField passField;
   CustomButton signupButton;
@@ -70,13 +77,17 @@ public class Register implements ActionListener{
             passField.setText("");
             emailErr.setVisible(false);
             passwordErr.setVisible(false);
+            frame.dispose();
+            new Login();
+            
+
           }else{
             emailErr.setText("email already exist");
             emailErr.setVisible(true);
             passwordErr.setVisible(false);
           }
         }         
-      } catch (SQLException e) {
+      } catch (SQLException | FontFormatException | IOException e) {
           e.printStackTrace();
       }
 
@@ -101,7 +112,7 @@ public class Register implements ActionListener{
 
 
   public void initComponents() throws FontFormatException, IOException{
-    CustomFrame frame = new CustomFrame();
+    frame = new CustomFrame();
 
 
     // FONTS : 
@@ -214,6 +225,7 @@ public class Register implements ActionListener{
     linkLabel.setFont(labelMedium);
     linkLabel.setForeground(new Color(0x6A70E0));
     linkLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    linkLabel.addMouseListener(this);
 
 
     JPanel bottomPanel = new JPanel();
@@ -251,5 +263,29 @@ public class Register implements ActionListener{
     frame.setVisible(true);
   }
 
+  @Override
+  public void mouseClicked(java.awt.event.MouseEvent arg0) {
+    frame.dispose();
+    try {
+      new Login();
+    } catch (FontFormatException | IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  // Unimplemented method ----------------------------------
+  @Override
+  public void mouseEntered(java.awt.event.MouseEvent arg0) {
+  }
+  @Override
+  public void mouseExited(java.awt.event.MouseEvent arg0) {
+  }
+  @Override
+  public void mousePressed(java.awt.event.MouseEvent arg0) {
+  }
+  @Override
+  public void mouseReleased(java.awt.event.MouseEvent arg0) {
+  }
+// ----------------------------------------------------------
   
 }

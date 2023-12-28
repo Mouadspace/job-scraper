@@ -3,10 +3,11 @@ package ui;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.regex.Pattern;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -25,9 +26,9 @@ import mswing.CustomButton;
 import mswing.CustomFrame;
 
 
-public class Login implements ActionListener{
+public class Login implements ActionListener, MouseListener{
 
-
+  CustomFrame frame;
   JTextField loginField;
   JTextField passField;
   CustomButton loginButton;
@@ -59,6 +60,8 @@ public class Login implements ActionListener{
           loginField.setText("");
           passField.setText("");
           authErr.setVisible(false);
+          frame.dispose();
+          new Home();
 
         }else{
           authErr.setText("username or password incorrect");
@@ -74,7 +77,7 @@ public class Login implements ActionListener{
 
 
   public void initComponents() throws FontFormatException, IOException{
-    CustomFrame frame = new CustomFrame();
+    frame = new CustomFrame();
 
 
     // FONTS : 
@@ -173,7 +176,7 @@ public class Login implements ActionListener{
     loginButton.setBounds(250, 180, 300, 40);
     loginButton.addActionListener(this);
 
-    JLabel bLabel = new JLabel("Don't have an Account");
+    JLabel bLabel = new JLabel("Don't have an Account?");
     bLabel.setFont(labelMedium);
     bLabel.setForeground(new Color(0xC7C7C7));
     // bLabel.setBounds(250,190,100,25);
@@ -182,6 +185,7 @@ public class Login implements ActionListener{
     linkLabel.setFont(labelMedium);
     linkLabel.setForeground(new Color(0x6A70E0));
     linkLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    linkLabel.addMouseListener(this);
 
 
     JPanel bottomPanel = new JPanel();
@@ -217,6 +221,31 @@ public class Login implements ActionListener{
     // TO AVOID BUGS
     frame.setVisible(true);
   }
+
+  @Override
+  public void mouseClicked(MouseEvent arg0) {
+    frame.dispose();
+    try {
+      new Register();
+    } catch (FontFormatException | IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  // Unimplemented method ----------------------------------
+  @Override
+  public void mouseEntered(MouseEvent arg0) {
+  }
+  @Override
+  public void mouseExited(MouseEvent arg0) {
+  }
+  @Override
+  public void mousePressed(MouseEvent arg0) {
+  }
+  @Override
+  public void mouseReleased(MouseEvent arg0) {
+  }
+// ----------------------------------------------------------
 
   
 }
