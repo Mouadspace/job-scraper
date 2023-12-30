@@ -3,12 +3,10 @@ package ui;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Random;
 import java.util.regex.Pattern;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
@@ -17,14 +15,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
-import org.w3c.dom.events.MouseEvent;
 
 import model.User;
 import mswing.CustomButton;
@@ -78,7 +74,7 @@ public class Register implements ActionListener, MouseListener{
             emailErr.setVisible(false);
             passwordErr.setVisible(false);
             frame.dispose();
-            new Login();
+            new Home();
             
 
           }else{
@@ -87,7 +83,7 @@ public class Register implements ActionListener, MouseListener{
             passwordErr.setVisible(false);
           }
         }         
-      } catch (SQLException | FontFormatException | IOException e) {
+      } catch (SQLException e) {
           e.printStackTrace();
       }
 
