@@ -8,7 +8,7 @@ public class CustomFrame extends JFrame{
 
   private void initialize(){
     
-    setSize(800,500);
+    setSize(800,550);
     setLocationRelativeTo(null);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     getContentPane().setBackground(new Color(0xFBFBFB));
