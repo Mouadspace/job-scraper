@@ -35,7 +35,7 @@ public class Register implements ActionListener, MouseListener{
   CustomButton signupButton;
   JLabel emailErr,passwordErr;
 
-  User user ;
+  User user;
 
   public Register() throws FontFormatException, IOException{
     initComponents();
@@ -147,7 +147,7 @@ public class Register implements ActionListener, MouseListener{
     googleSignupButton.setFocusable(false);
     googleSignupButton.setBorder(BorderFactory.createEmptyBorder(10, 60, 10, 60));
     googleSignupButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
-    ImageIcon icon = new ImageIcon("assets/frame.png");   
+    ImageIcon icon = new ImageIcon("assets/google-logo.png");   
     googleSignupButton.setIcon(icon);
     googleSignupButton.setIconTextGap(10);
     // googleSignupButton.setHorizontalAlignment(SwingConstants.LEADING);

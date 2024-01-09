@@ -1,14 +1,252 @@
 package ui;
 
-import mswing.CustomFrame;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
-public class Home {
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.Border;
+
+import mswing.CustomFrame;
+import mswing.CustomPanel;
+
+public class Home implements MouseListener{
   CustomFrame frame;
+  JPanel topPanel ;
+  JPanel sidePanel;
+  JPanel mainPanel;
+  CardLayout  cardLayout;
+  JLabel sidepanelLabel1;
+  JLabel sidepanelLabel2;
+
+
   public Home(){
+    Border buttomBorder = BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0xcccccc));
+    Border rightBorder = BorderFactory.createMatteBorder(0, 0, 0, 1, new Color(0xcccccc));
+    Border emptyBorder = BorderFactory.createEmptyBorder(20, 20, 20, 40);
+
+
     frame = new CustomFrame();
+    frame.setSize(800,580);
+    frame.setLocationRelativeTo(null);
+
+    topPanel = new JPanel();
+    sidePanel = new JPanel();
+    mainPanel = new JPanel();
+
+    
+    cardLayout = new CardLayout();
+    mainPanel.setBackground(new Color(0xF1F3F5));
+    mainPanel.setLayout(cardLayout);
+    JPanel card1 = new JPanel();
+    JPanel card2 = new JPanel();
+    mainPanel.add(card1,"card 1");
+    mainPanel.add(card2,"card 2");
+    cardLayout.show(mainPanel,"card 1");
+    FlowLayout fl = new FlowLayout();
+    fl.setVgap(10);
+    fl.setHgap(30);
+    card1.setLayout(fl);
+    
+    // CLASSIC SEARCH
+    new OfferCard(card1,new Color(0x74C0FC),"UI/UX designer","Google");
+    new OfferCard(card1,new Color(0xFFE066),"Datascientest","Airbnb");
+    // new OfferCard(card1,new Color(0xC0EB75),"U");
+    // new OfferCard(card1,new Color(0xC0EB75),"U");
+
+
+
+
+
+
+    // AI POWERD SEARCH
+    card2.setBackground(Color.orange);
+
+
+
+  
+
+    topPanel.setPreferredSize(new Dimension(0,35));
+    topPanel.setBackground(Color.WHITE);
+    topPanel.setBorder(buttomBorder);
+
+    
+
+    sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
+    sidePanel.setBackground(Color.WHITE);
+    sidePanel.setBorder(rightBorder);
+
+    sidepanelLabel1 = new JLabel("Classic search");
+    ImageIcon lb1Icon = new ImageIcon("assets/search.png");
+    sidepanelLabel1.setIcon(lb1Icon);
+    sidepanelLabel1.setIconTextGap(12);
+    sidepanelLabel1.setForeground(new Color(0x212121));
+    sidepanelLabel1.setFont(new Font("Arial",Font.PLAIN,14));
+    sidepanelLabel1.setBorder(BorderFactory.createCompoundBorder(buttomBorder, emptyBorder));
+    sidepanelLabel1.addMouseListener(this);
+    sidePanel.add(sidepanelLabel1);
+
+    
+    sidepanelLabel2 = new JLabel("AI Powered    ");
+    ImageIcon lb2Icon = new ImageIcon("assets/sparks.png");
+    sidepanelLabel2.setIcon(lb2Icon);
+    sidepanelLabel2.setIconTextGap(12);
+    sidepanelLabel2.setForeground(new Color(0x212121));
+    sidepanelLabel2.setFont(new Font("Arial",Font.PLAIN,14));
+    sidepanelLabel2.setBorder(BorderFactory.createCompoundBorder(buttomBorder, emptyBorder));
+    sidepanelLabel2.addMouseListener(this);
+    sidePanel.add(sidepanelLabel2);
+    
+
+
+
+
+
+    // ADDING PANLES TO FRAME ( BORDER LAYOUT ) 
+    frame.add(topPanel,BorderLayout.NORTH);
+    frame.add(sidePanel,BorderLayout.WEST);
+    frame.add(mainPanel,BorderLayout.CENTER);
+
+
+    frame.setVisible(true);
+
+
+    
 
     
 
 
+  }
+  // MOUSE LISTENER METHODS
+  @Override
+  public void mouseClicked(MouseEvent event) {
+    if (event.getSource() == sidepanelLabel1) {
+      cardLayout.show(mainPanel,"card 1");
+    }
+
+    if (event.getSource() == sidepanelLabel2) {
+      cardLayout.show(mainPanel,"card 2");
+    }
+
+  }
+  @Override
+  public void mouseEntered(MouseEvent event) {
+  }
+  @Override
+  public void mouseExited(MouseEvent event) {
+  }
+  @Override
+  public void mousePressed(MouseEvent event) {
+  }
+  @Override
+  public void mouseReleased(MouseEvent event) {
+  }
+}
+
+
+//  -------------------OFFER CARD CLASS------------------------
+
+class OfferCard extends CustomPanel {
+  public OfferCard(JPanel parent,Color color,String jobTitle,String company){
+
+    CustomPanel offerCard = new CustomPanel();
+    offerCard.setBackground(Color.WHITE);
+    offerCard.setPreferredSize(new Dimension(350,100));
+    offerCard.setRoundAll(16);
+    offerCard.setLayout(new BorderLayout());
+
+    CustomPanel offerCardHeader = new CustomPanel();
+    offerCardHeader.setBackground(color);
+    offerCardHeader.setPreferredSize(new Dimension(60,0));
+    offerCardHeader.setRoundAll(16, 0, 16, 0);
+
+    CustomPanel logoContainer = new CustomPanel();
+    logoContainer.setBackground(Color.WHITE);
+    logoContainer.setPreferredSize(new Dimension(30,30));
+    logoContainer.setRoundAll(50);
+
+    JLabel logoLabel = new JLabel(String.valueOf(company.charAt(0)).toUpperCase());
+    logoLabel.setForeground(color);
+    logoContainer.setLayout(new BorderLayout());
+    logoLabel.setVerticalAlignment(JLabel.CENTER);
+    logoLabel.setHorizontalAlignment(JLabel.CENTER);
+    logoLabel.setFont(new Font("arial",Font.PLAIN,14));
+    logoContainer.add(logoLabel);
+
+    offerCardHeader.setLayout(new GridBagLayout());
+    GridBagConstraints gbc = new GridBagConstraints();
+    offerCardHeader.add(logoContainer,gbc);
+    
+
+
+    CustomPanel offerCardBody = new CustomPanel();
+    offerCardBody.setBackground(Color.WHITE);
+    offerCardBody.setRoundAll(0, 16, 0, 16);
+    offerCard.add(offerCardHeader,BorderLayout.WEST);
+    offerCard.add(offerCardBody,BorderLayout.CENTER);
+    offerCardBody.setLayout(new BoxLayout(offerCardBody, BoxLayout.Y_AXIS));
+
+    JLabel postName = new JLabel(jobTitle);
+    postName.setFont(new Font("arial",Font.BOLD,13));
+    postName.setForeground(new Color(0x212121));
+    postName.setAlignmentX(LEFT_ALIGNMENT);
+  
+    JLabel companyName = new JLabel(company);
+    companyName.setFont(new Font("arial",Font.PLAIN,10));
+    companyName.setForeground(new Color(0x212121));
+    companyName.setAlignmentX(LEFT_ALIGNMENT);
+
+    JPanel datesiteContainer = new JPanel();
+    datesiteContainer.setLayout(new BoxLayout(datesiteContainer,BoxLayout.X_AXIS));
+    datesiteContainer.setBackground(Color.WHITE);
+    datesiteContainer.setAlignmentX(LEFT_ALIGNMENT);
+
+    JLabel datePost = new JLabel("poseted on "+"01/12/2023");
+    datePost.setFont(new Font("arial",Font.PLAIN,10));
+    datePost.setForeground(new Color(0xbbbbbb));
+    
+    JLabel sitePost = new JLabel("via "+"rekrut.ma");
+    sitePost.setFont(new Font("arial",Font.PLAIN,10));
+    sitePost.setForeground(new Color(0xbbbbbb));
+
+    
+
+    offerCardBody.add(postName);
+    offerCardBody.add(Box.createVerticalGlue());
+    offerCardBody.add(companyName);
+    offerCardBody.add(datePost);
+    offerCardBody.add(sitePost);
+    offerCardBody.add(datesiteContainer);
+    datesiteContainer.add(datePost);
+    datesiteContainer.add(Box.createRigidArea(new  Dimension(20, 0)));
+    datesiteContainer.add(sitePost);
+
+    postName.setBorder(BorderFactory.createEmptyBorder(10,10,0,10));
+    companyName.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
+    datesiteContainer.setBorder(BorderFactory.createEmptyBorder(0,10,10,10));
+
+
+
+    // companyName.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
+
+
+
+  
+
+
+
+    parent.add(offerCard);
   }
 }

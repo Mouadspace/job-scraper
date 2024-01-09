@@ -12,7 +12,7 @@ public class CustomFrame extends JFrame{
     setLocationRelativeTo(null);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     getContentPane().setBackground(new Color(0xFBFBFB));
-    setUndecorated(true);
+    // setUndecorated(true);
 
     setVisible(true);
   }
