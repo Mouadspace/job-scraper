@@ -30,6 +30,8 @@ public class Home implements MouseListener{
   CardLayout  cardLayout;
   JLabel sidepanelLabel1;
   JLabel sidepanelLabel2;
+  JLabel sidepanelLabel3;
+
 
 
   public Home(){
@@ -52,8 +54,12 @@ public class Home implements MouseListener{
     mainPanel.setLayout(cardLayout);
     JPanel card1 = new JPanel();
     JPanel card2 = new JPanel();
+    JPanel card3 = new JPanel();
+
     mainPanel.add(card1,"card 1");
     mainPanel.add(card2,"card 2");
+    mainPanel.add(card3,"card 3");
+
     cardLayout.show(mainPanel,"card 1");
     FlowLayout fl = new FlowLayout();
     fl.setVgap(10);
@@ -109,6 +115,16 @@ public class Home implements MouseListener{
     sidepanelLabel2.addMouseListener(this);
     sidePanel.add(sidepanelLabel2);
     
+    sidepanelLabel3 = new JLabel("Graphics        ");
+    ImageIcon lb3Icon = new ImageIcon("assets/graph.png");
+    sidepanelLabel3.setIcon(lb3Icon);
+    sidepanelLabel3.setIconTextGap(12);
+    sidepanelLabel3.setForeground(new Color(0x212121));
+    sidepanelLabel3.setFont(new Font("Arial",Font.PLAIN,14));
+    sidepanelLabel3.setBorder(BorderFactory.createCompoundBorder(buttomBorder, emptyBorder));
+    sidepanelLabel3.addMouseListener(this);
+    sidePanel.add(sidepanelLabel3);
+
 
 
 
@@ -138,6 +154,10 @@ public class Home implements MouseListener{
 
     if (event.getSource() == sidepanelLabel2) {
       cardLayout.show(mainPanel,"card 2");
+    }
+
+    if(event.getSource() == sidepanelLabel3){
+      cardLayout.show(mainPanel,"card 3");
     }
 
   }
