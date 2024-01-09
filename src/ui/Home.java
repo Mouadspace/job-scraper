@@ -69,7 +69,7 @@ public class Home implements MouseListener{
     FlowLayout fl = new FlowLayout();
     fl.setVgap(10);
     fl.setHgap(30);
-    card1.setLayout(fl);
+    card1.setLayout(new BorderLayout());
     
     // CLASSIC SEARCH
     // new OfferCard(card1,new Color(0x74C0FC),"UI/UX designer","Google");
@@ -86,12 +86,26 @@ public class Home implements MouseListener{
     submitButton.setBorderRadius(16);
     submitButton.setForeground(Color.WHITE);
 
+    JPanel card1Header = new JPanel();
+    FlowLayout fl2 = new FlowLayout();
+    fl2.setVgap(30);
+    card1Header.setLayout(fl2);
+    card1Header.setPreferredSize(new Dimension(0,100));
+    card1Header.add(searchField);
+    card1Header.add(submitButton);
+
+    JPanel card1Main = new JPanel();
+    card1Main.setLayout(fl);
+
+    
 
 
     submitButton.setFocusable(false);
-    card1.add(searchField);
-    card1.add(submitButton);
+    card1.add(card1Header,BorderLayout.NORTH);
+    card1.add(card1Main);
     
+    new OfferCard(card1Main,new Color(0x74C0FC),"UI/UX designer","Google");
+    new OfferCard(card1Main,new Color(0xFFE066),"Datascientest","Airbnb");
 
 
 

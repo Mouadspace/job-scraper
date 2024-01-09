@@ -7,7 +7,7 @@ import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.geom.Area;
 import java.awt.geom.RoundRectangle2D;
-import java.awt.image.BufferedImage;
+// import java.awt.image.BufferedImage;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicTextFieldUI;
@@ -37,7 +37,7 @@ public class CustomField extends JTextField {
 
     private int round = 10;
     private Color shadowColor = new Color(170, 170, 170);
-    private BufferedImage imageShadow;
+    // private BufferedImage imageShadow;
     private final Insets shadowSize = new Insets(0, 0, 0, 0);
 
     public CustomField() {
