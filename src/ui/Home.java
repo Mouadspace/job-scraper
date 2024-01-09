@@ -17,8 +17,13 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
+import mswing.CustomButton;
+import mswing.CustomField;
 import mswing.CustomFrame;
 import mswing.CustomPanel;
 
@@ -67,11 +72,26 @@ public class Home implements MouseListener{
     card1.setLayout(fl);
     
     // CLASSIC SEARCH
-    new OfferCard(card1,new Color(0x74C0FC),"UI/UX designer","Google");
-    new OfferCard(card1,new Color(0xFFE066),"Datascientest","Airbnb");
+    // new OfferCard(card1,new Color(0x74C0FC),"UI/UX designer","Google");
+    // new OfferCard(card1,new Color(0xFFE066),"Datascientest","Airbnb");
     // new OfferCard(card1,new Color(0xC0EB75),"U");
     // new OfferCard(card1,new Color(0xC0EB75),"U");
 
+    CustomField searchField = new CustomField();
+    searchField.setPreferredSize(new Dimension(300,35));
+    CustomButton submitButton = new CustomButton();
+    submitButton.setText("Find Job");
+    submitButton.setBorder(new EmptyBorder(10, 10, 10, 10));
+    submitButton.setBackground(new Color(0x6A70E0));
+    submitButton.setBorderRadius(16);
+    submitButton.setForeground(Color.WHITE);
+
+
+
+    submitButton.setFocusable(false);
+    card1.add(searchField);
+    card1.add(submitButton);
+    
 
 
 
