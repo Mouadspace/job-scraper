@@ -1,26 +1,24 @@
 // package scraper;
 
 // import java.sql.*;
+
 // import java.io.IOException;
 // import java.util.ArrayList;
 // import java.util.List;
+// import java.util.Random;
 
 // import org.jsoup.Jsoup;
 // import org.jsoup.nodes.Document;
 // import org.jsoup.nodes.Element;
 // import org.jsoup.select.Elements;
 
-// import DB.DataBase;
 // import model.Company;
 // import model.Langue;
 // import model.Offer;
 // import model.Skill;
 
 // public class Scrapper01 {
-//     public static List<Skill> listSkills = new ArrayList<Skill>(); // Table Skill
-//     public static List<Company> listCompanies = new ArrayList<Company>(); // Table Company
 //     public static List<Offer> listOffres = new ArrayList<Offer>(); // Table Offre
-//     public static List<Language> listLangues = new ArrayList<Language>(); // Table Langue
 
 //     public static String ReturnDatePublication(String DP){
 //         String[] textDP = DP.split(" ");
@@ -29,7 +27,7 @@
 //         return datePub;
 //     }
 
-//     public static Language getLangueAndLevel(int id_offre, String langueScraped){
+//     public static Langue getLangueAndLevel(String langueScraped){
 //         String[] resultArray = langueScraped.split("›");
 //         String langueName = "";
 //         String level = "";
@@ -38,17 +36,29 @@
 //             langueName = resultArray[0];
 //             level = resultArray[1];
 //         } 
-//         return new Language(id_offre, langueName, level);
+//         return new Langue(langueName, level);
 //     }
 //     public static void main(String[] args) throws IOException {
 //         List<String> urls = new ArrayList<>();
         
 
 //         // Adding numbers from 1 to 30 to the list
-//         for (int i = 1; i <= 1; i++) {
+//         for (int i = 20; i <= 29; i++) {
 //             urls.add(String.valueOf(i));
 //         }
-//         int id_offre = 0;
+//         // int id_offre = 0;
+//         // // Get the max id_offre in table offre:
+//         // try (Connection con = ConnectionManager.getConnection();
+//         // Statement smt = con.createStatement()){
+//         //     String sql = "SELECT MAX(id_offre) AS max_id_offre FROM Offre;";
+//         //     ResultSet rs = smt.executeQuery(sql);
+//         //     if (rs.next()) {
+//         //         id_offre = rs.getInt("max_id_offre") + 1;
+//         //     }
+//         // } catch (Exception e) {
+//         //     System.out.println("Couldn't get the max id offre");
+//         // }
+        
         
 
 //          // -------------------------------
@@ -62,7 +72,21 @@
 //                 System.out.println("\n----------------------------------------------------------------");
 //                 System.out.println("Jobs in Emploi.com");
 //                 for(Element offre : offres){
+//                     try {
+//                     // Create a Random object
+//                     Random random = new Random();
+
+//                     // Generate a random value between 4 and 8 seconds
+//                     int randomSeconds = random.nextInt(5) + 4;
+
+//                     System.out.println("Sleeping for " + randomSeconds + " seconds");
+//                     Thread.sleep(randomSeconds * 1000); // Convert seconds to milliseconds
+//                     } catch (InterruptedException e) {
+//                         e.printStackTrace();
+//                     }
 //                     nbr_offre = nbr_offre + 1;
+//                     List<Skill> listSkills = new ArrayList<Skill>();
+//                     List<Skill> listLangues = new ArrayList<Skill>(); 
 
 //                     String OffreLink = offre.select("h5 > a").attr("href");
 //                     Document urlSite = Jsoup.connect("https://www.emploi.ma/" + OffreLink).get(); // URL
@@ -142,10 +166,11 @@
 //                                         NiveauEtudes = NiveauEtudes + item + ";";
 //                                         break;
 //                                     case "Langues exigées :":
-//                                         listLangues.add(getLangueAndLevel(id_offre, item));
+//                                         System.out.println(item);
+//                                         listLangues.add(getLangueAndLevel(item));
 //                                         break;
 //                                     case "Compétences clés :":
-//                                         listSkills.add(new Skill(id_offre, item, "hard"));
+//                                         listSkills.add(new Skill(item, "hard"));
 //                                         break;
 //                                     default:
 //                                         break;
@@ -162,54 +187,57 @@
 //                     // Write data to the cells in the row
 
 //                     // Save in the Classes
-                    
-//                     // Offre
-//                     System.out.println(Title);
-//                     listOffres.add(new Offre(id_offre, 
-//                     Title,
-//                     "https://www.emploi.ma/" + OffreLink,  
-//                     SiteName,
-//                     DatePublication,
-//                     "",
-//                     OffreDescription,
-//                     Région,
-//                     Ville,
-//                     SecteurActivité,
-//                     métier,
-//                     TypeDeContract,
-//                     NiveauEtudes,
-//                     "",
-//                     NiveauExpérience,
-//                     ProfileRecherce,
-//                     "",
-//                     "",
-//                     "",
-//                     "",
-//                     "NON",
-//                     Integer.parseInt(nombreDePoste)));
-
-
-//                     // Company Table
-//                     listCompanies.add(new Company(id_offre, 
+//                     // Company
+//                     Company companyC = new Company(
 //                     "", 
 //                     Description, 
 //                     WebSiteCompany, 
-//                     Company));
+//                     Company);
+//                     // Offre
+//                     System.out.println(Title);
+//                     // listOffres.add(new Offer(
+//                     // Title,
+//                     // "https://www.emploi.ma/" + OffreLink,  
+//                     // SiteName,
+//                     // DatePublication,
+//                     // "",
+//                     // OffreDescription,
+//                     // Région,
+//                     // Ville,
+//                     // SecteurActivité,
+//                     // métier,
+//                     // TypeDeContract,
+//                     // NiveauEtudes,
+//                     // "",
+//                     // NiveauExpérience,
+//                     // ProfileRecherce,
+//                     // "",
+//                     // "",
+//                     // "",
+//                     // "",
+//                     // "NON",
+//                     // Integer.parseInt(nombreDePoste),
+//                     // listSkills,
+//                     // companyC, 
+//                     // listLangues
+//                     // ));
+//                     // listOffres.add(new Offer(numberURL, numberURL, numberURL, startIndex, numberURL, numberURL, numberURL, numberURL, numberURL, numberURL, numberURL, numberURL, numberURL, numberURL, numberURL, numberURL, numberURL, null, numberURL, numberURL, numberURL, numberURL, numberURL, numberURL, listLangues, companyC, null));
 
-//                     System.out.println("Info of Offer were added at Row Number: " + id_offre);
-//                     id_offre = id_offre + 1;
+
+//                     System.out.println("Info of Offer were added at Row Number: " + nbr_offre);
+                    
                     
 //                 }
                 
 //             } catch (Exception e) {
 //                 e.printStackTrace();
 //             }
-//             try {
-//                 System.out.println("Sleeping for 7 seconds");
-//                 Thread.sleep(7000); // Sleep for 7 seconds (7 * 1000 milliseconds)
-//             } catch (InterruptedException e) {
-//                 e.printStackTrace();
-//             }
+//             // try {
+//             //     System.out.println("Sleeping for 7 seconds");
+//             //     Thread.sleep(7000); // Sleep for 7 seconds (7 * 1000 milliseconds)
+//             // } catch (InterruptedException e) {
+//             //     e.printStackTrace();
+//             // }
             
 //         }
 //         insertDB();
@@ -218,66 +246,79 @@
 
 //     public static void insertDB() {
         
-//         try {
-//             Statement smt = DataBase.getStatement();
-//             // Connection con = ConnectionManager.getConnection();
-//             // Statement smt = con.createStatement();
-//             String sql;
-//             for (Offre f : listOffres) {
-//                 System.out.println(f.Title);
-//                 sql = "INSERT INTO Offre (id_offre, Title, OffreLink, SiteName, PublicationDate, ApplyDate, OffreDescription, Region, City, Sectors, Occupation, ContractType, EducationLevel, Diploma, ExperienceLevel, SearchedProfile, PersonalityTraits, RecommandedCompetence, Salary, SocialAdvantages, RemoteWork, NumberOfPosts) VALUES (" +
-//                         f.id_offre + ", '" +
-//                         f.Title.replace("'", "''") + "', '" +
-//                         f.OffreLink.replace("'", "''") + "', '" +
-//                         f.SiteName.replace("'", "''") + "', '" +
-//                         f.PublicationDate.replace("'", "''") + "', '" +
-//                         f.ApplyDate.replace("'", "''") + "', '" +
-//                         f.OffreDescription.replace("'", "''") + "', '" +
-//                         f.Region.replace("'", "''") + "', '" +
-//                         f.City.replace("'", "''") + "', '" +
-//                         f.Sectors.replace("'", "''") + "', '" +
-//                         f.Occupation.replace("'", "''") + "', '" +
-//                         f.ContractType.replace("'", "''") + "', '" +
-//                         f.EducationLevel.replace("'", "''") + "', '" +
-//                         f.Diploma.replace("'", "''") + "', '" +
-//                         f.ExperienceLevel.replace("'", "''") + "', '" +
-//                         f.SearchedProfile.replace("'", "''") + "', '" +
-//                         f.PersonalityTraits.replace("'", "''") + "', '" +
-//                         f.RecommandedCompetence.replace("'", "''") + "', '" +
-//                         f.Salary.replace("'", "''") + "', '" +
-//                         f.SocialAdvantages.replace("'", "''") + "', '" +
-//                         f.RemoteWork.replace("'", "''") + "', " +
-//                         f.NumberOfPosts + ")";
-//                 smt.executeUpdate(sql);
-//             }
-            
-//             for (Skill s : listSkills) {
-//                 sql = "INSERT INTO skill (id_offre, skillName, skillType) VALUES (" +
-//                         s.id_offre + ", '" +
-//                         s.skillName.replace("'", "''") + "', '" +
-//                         s.skillType.replace("'", "''") + "')";
-//                 smt.executeUpdate(sql);
-//             }
-            
-//             for (Company c : listCompanies) {
-//                 sql = "INSERT INTO Company (id_offre, CompanyAdresse, CompanyWebsite, CompanyName, CompanyDescription) VALUES (" +
-//                         c.id_offre + ", '" +
-//                         c.CompanyAdresse.replace("'", "''") + "', '" +
-//                         c.CompanyWebsite.replace("'", "''") + "', '" +
-//                         c.CompanyName.replace("'", "''") + "', '" +
-//                         c.CompanyDescription.replace("'", "''") + "')";
-//                 smt.executeUpdate(sql);
-//             }
-            
-//             for (Language l : listLangues) {
-//                 sql = "INSERT INTO Langue (id_offre, langueName, level) VALUES (" +
-//                         l.id_offre + ", '" +
-//                         l.langueName.replace("'", "''") + "', '" +
-//                         l.level.replace("'", "''") + "')";
-//                 smt.executeUpdate(sql);
-//             }
+//         try (Connection con = ConnectionManager.getConnection();
+//         Statement smt = con.createStatement()) {
+//     String sql;
+//     for (OffreClass f : listOffres) {
+//         System.out.println(f.Title);
+//         sql = "INSERT INTO Offre (id_offre, Title, OffreLink, SiteName, PublicationDate, ApplyDate, OffreDescription, Region, City, Sectors, Occupation, ContractType, EducationLevel, Diploma, ExperienceLevel, SearchedProfile, PersonalityTraits, RecommandedCompetence, Salary, SocialAdvantages, RemoteWork, NumberOfPosts) VALUES (" +
+//                  ", '" +
+//                 f.Title.replace("'", "''") + "', '" +
+//                 f.OffreLink.replace("'", "''") + "', '" +
+//                 f.SiteName.replace("'", "''") + "', '" +
+//                 f.PublicationDate.replace("'", "''") + "', '" +
+//                 f.ApplyDate.replace("'", "''") + "', '" +
+//                 f.OffreDescription.replace("'", "''") + "', '" +
+//                 f.Region.replace("'", "''") + "', '" +
+//                 f.City.replace("'", "''") + "', '" +
+//                 f.Sectors.replace("'", "''") + "', '" +
+//                 f.Occupation.replace("'", "''") + "', '" +
+//                 f.ContractType.replace("'", "''") + "', '" +
+//                 f.EducationLevel.replace("'", "''") + "', '" +
+//                 f.Diploma.replace("'", "''") + "', '" +
+//                 f.ExperienceLevel.replace("'", "''") + "', '" +
+//                 f.SearchedProfile.replace("'", "''") + "', '" +
+//                 f.PersonalityTraits.replace("'", "''") + "', '" +
+//                 f.RecommandedCompetence.replace("'", "''") + "', '" +
+//                 f.Salary.replace("'", "''") + "', '" +
+//                 f.SocialAdvantages.replace("'", "''") + "', '" +
+//                 f.RemoteWork.replace("'", "''") + "', " +
+//                 f.NumberOfPosts + ")";
+//         smt.executeUpdate(sql);
+
+//         // Get the id_offre
+//         // Get the max id_offre in table offre:
+//         int id_offre = 0;
+//         sql = "SELECT MAX(id_offre) AS max_id_offre FROM Offre;";
+//         ResultSet rs = smt.executeQuery(sql);
+//         if (rs.next()) {
+//             id_offre = rs.getInt("max_id_offre") + 1;
+//         }
+
+//         for (SkillClass s : f.skills) {
+//         sql = "INSERT INTO skill (id_offre, skillName, skillType) VALUES (" +
+//                 id_offre + ", '" +
+//                 s.skillName.replace("'", "''") + "', '" +
+//                 s.skillType.replace("'", "''") + "')";
+//         smt.executeUpdate(sql);
+//         }
+
+        
+//         sql = "INSERT INTO Company (id_offre, CompanyAdresse, CompanyWebsite, CompanyName, CompanyDescription) VALUES (" +
+//                 id_offre + ", '" +
+//                 f.companys.CompanyAdresse.replace("'", "''") + "', '" +
+//                 f.companys.CompanyWebsite.replace("'", "''") + "', '" +
+//                 f.companys.CompanyName.replace("'", "''") + "', '" +
+//                 f.companys.CompanyDescription.replace("'", "''") + "')";
+//         smt.executeUpdate(sql);
+
+//         for (LangueClass l : f.langues) {
+//         sql = "INSERT INTO Langue (id_offre, langueName, level) VALUES (" +
+//                 id_offre + ", '" +
+//                 l.langueName.replace("'", "''") + "', '" +
+//                 l.level.replace("'", "''") + "')";
+//         smt.executeUpdate(sql);
+//     }
+    
+        
+//     }
+    
+    
+    
+    
+    
+    
 // } catch (SQLException e) {
-//     System.out.println("failed here");
 //     e.printStackTrace();
 // }
 

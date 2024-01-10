@@ -2,8 +2,12 @@ package ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.util.ArrayList;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -18,6 +22,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -43,14 +48,43 @@ public class Home implements MouseListener,ActionListener{
   JLabel sidepanelLabel3;
   CustomField searchField;
   CustomButton submitButton;
+  CustomComboBox<String> contrasCombo;
+  CustomComboBox<String> citiesCombo;
 
   CustomCheckbox c1;
   CustomCheckbox c2;
   CustomCheckbox c3;
   CustomCheckbox c4;
+  CustomCheckbox c5;
+  CustomCheckbox c6;
 
 
 
+  private static void addPlaceholder(JTextField textField, String placeholder) {
+    textField.setText(placeholder);
+    textField.setForeground(Color.GRAY);
+    // textField.setFont(new Font("arial",Font.BOLD,12));
+
+    textField.addFocusListener(new FocusListener() {
+        @Override
+        public void focusGained(FocusEvent e) {
+            if (textField.getText().equals(placeholder)) {
+                textField.setText("");
+                textField.setForeground(Color.BLACK);
+            }
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            if (textField.getText().isEmpty()) {
+                textField.setText(placeholder);
+                textField.setForeground(Color.GRAY);
+            }
+        }
+
+        
+    });
+}
   public Home(){
     // BORDERS
     Border buttomBorder = BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0xcccccc));
@@ -98,7 +132,8 @@ public class Home implements MouseListener,ActionListener{
     // new OfferCard(card1,new Color(0xC0EB75),"U");
 
     searchField = new CustomField();
-    searchField.setPreferredSize(new Dimension(300,35));
+    addPlaceholder(searchField, "Secteur");
+    searchField.setPreferredSize(new Dimension(380,35));
     submitButton = new CustomButton();
     submitButton.setText("Find Job");
     submitButton.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -112,25 +147,57 @@ public class Home implements MouseListener,ActionListener{
     c2 = new CustomCheckbox();
     c3 = new CustomCheckbox();
     c4 = new CustomCheckbox();
+    c5 = new CustomCheckbox();
+    c6 = new CustomCheckbox();
+
 
     c1.setText("rekrute.com");
-    c2.setText("emploi.ma");
+    c2.setText("m-job.ma");
     c3.setText("announce.ma");
+    c4.setText("emploi.ma");
+    c5.setText("marocannonces.com");
+    c6.setText("talentspartners.com");
+
+
+
+    
+
 
 
     JPanel card1HeaderTop = new JPanel();
     JPanel card1HeaderMiddle = new JPanel();
     JPanel card1HeaderBottom = new JPanel();
+    JPanel card1HeaderBottom2 = new JPanel();
+
+
 
 
     // HEADER => MIDDLE
-    String[] cities = {"casa","kenitra","rabat"};
-    CustomComboBox<String> citiesCombo = new CustomComboBox<String>();
+    String[] cities = {"Agadir", "Casablanca", "Fes", "Marrakech", "Meknes",
+    "Nador", "Ouarzazate", "Oujda", "Rabat", "Safi",
+    "Salé", "Tanger", "Tetouan", "El Jadida", "Kenitra",
+    "Laayoune", "Dakhla", "Tetouan", "Mohammedia", "Marrakesh",
+    "Khouribga", "Temara", "Taza", "Larache", "Tan-Tan", "Al Hoceima",
+    "Azrou", "Youssoufia", "Sefrou", "Taroudant", "Berkan"};
+    citiesCombo = new CustomComboBox<String>();
+    citiesCombo.setFocusable(false);
+    citiesCombo.setPreferredSize(new Dimension(185,40));
     citiesCombo.setLabeText("Cities");
     citiesCombo.setModel(new javax.swing.DefaultComboBoxModel<String>(cities));
     citiesCombo.setLineColor(new Color(0x6A70E0));
     citiesCombo.setSelectedIndex(-1);
     card1HeaderMiddle.add(citiesCombo);
+
+    String[] contras = { "CDI", "Intérim", "CDD", "Freelance",
+    "Stage"};
+    contrasCombo = new CustomComboBox<String>();
+    contrasCombo.setFocusable(false);
+    contrasCombo.setPreferredSize(new Dimension(185,40));
+    contrasCombo.setLabeText("Contras");
+    contrasCombo.setModel(new javax.swing.DefaultComboBoxModel<String>(contras));
+    contrasCombo.setLineColor(new Color(0x6A70E0));
+    contrasCombo.setSelectedIndex(-1);
+    card1HeaderMiddle.add(contrasCombo);
 
 
     JPanel card1Header = new JPanel();
@@ -142,21 +209,33 @@ public class Home implements MouseListener,ActionListener{
     card1HeaderBottom.add(c1);
     card1HeaderBottom.add(c2);
     card1HeaderBottom.add(c3);
+    card1HeaderBottom.add(c4);
+    card1HeaderBottom.add(c5);
+    card1HeaderBottom.add(c6);
+
+
 
     card1HeaderTop.add(searchField); 
-    card1HeaderTop.add(submitButton);
+    card1HeaderBottom2.add(submitButton);
     
     card1Header.add(Box.createRigidArea(new  Dimension(0, 30)));
     card1Header.add(card1HeaderTop);
-    card1Header.add(card1HeaderBottom);
-    card1Header.add(Box.createRigidArea(new  Dimension(0, 30)));
     card1Header.add(card1HeaderMiddle);
+    card1Header.add(card1HeaderBottom);
+    card1Header.add(card1HeaderBottom2);
+    card1Header.add(Box.createRigidArea(new  Dimension(0, 30)));
 
 
     JPanel card1Main = new JPanel();
     card1Main.setLayout(fl);
 
-    
+    // JFileChooser fileChooser = new JFileChooser();
+    // fileChooser.setDialogTitle("Specify a file to save");
+    // int userSelection = fileChooser.showSaveDialog(card1Main);
+    // if (userSelection == JFileChooser.APPROVE_OPTION) {
+    //   File fileToSave = fileChooser.getSelectedFile();
+    //   System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+    // }
 
 
     submitButton.setFocusable(false);
@@ -274,21 +353,42 @@ public class Home implements MouseListener,ActionListener{
   }
   @Override
   public void actionPerformed(ActionEvent event) {
-    if(event.getSource() == submitButton){
-      System.out.println("text = " + searchField.getText() );
+    if(event.getSource() == submitButton){ 
+      String sector = searchField.getText();
       searchField.setText("");
-      String sites = "";
+      // String[3] sites = {};
+      ArrayList<String> sites = new ArrayList<String>();
+      
       if(c1.isSelected()){
-        sites += "rekrute.com ";
+        sites.add("rekrute.com");
       }
       if(c2.isSelected()){
-        sites += "emploi.ma ";
+        sites.add("emploi.ma");
       }
       if(c3.isSelected()){
-        sites += "announce.ma ";
+        sites.add( "announce.ma");
+      }
+      if(c4.isSelected()){
+        sites.add( "emploi.ma");
+      }
+      if(c5.isSelected()){
+        sites.add("marocannonces.com");
+      }
+      if(c6.isSelected()){
+        sites.add("talentspartners.com");
       }
 
+      String selectedCity = (String) citiesCombo.getSelectedItem();
+      selectedCity = selectedCity.toLowerCase();
+      String selectedContras = (String) contrasCombo.getSelectedItem();
+      selectedContras = selectedContras.toLowerCase();
+
+
+      System.out.println(sector);
       System.out.println("sites = "+ sites);
+      System.out.println(selectedCity);
+      System.out.println(selectedContras);
+
     }
   }
 }

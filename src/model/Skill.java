@@ -6,7 +6,10 @@ public class Skill {
     private String skillType;
 
     // Getter and Setter methods for all attributes
-
+    public Skill(String skillName, String skillType){
+        this.skillName = skillName;
+        this.skillType = skillType;
+    }
     public int getIdOffre() {
         return idOffre;
     }

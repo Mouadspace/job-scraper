@@ -8,6 +8,13 @@ public class Langue {
 
     // Getter and Setter methods for all attributes
 
+    public Langue(){
+
+    }
+    public Langue(String langueName, String level){
+        this.langueName = langueName;
+        this.level = level;
+    }
     public int getIdOffre() {
         return idOffre;
     }

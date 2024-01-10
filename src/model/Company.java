@@ -8,7 +8,14 @@ public class Company {
     private String companyDescription;
 
     // Getter and Setter methods for all attributes
-
+    public Company(){}
+    public Company(String CompanyAdresse, String CompanyDescription, String CompanyWebsite, String CompanyName){
+        this.companyAdresse = CompanyAdresse;
+        this.companyDescription = CompanyDescription;
+        this.companyWebsite = CompanyWebsite;
+        this.companyName = CompanyName;
+        
+    }
     public int getIdOffre() {
         return idOffre;
     }
