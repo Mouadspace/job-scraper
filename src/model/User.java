@@ -46,6 +46,7 @@ public class User {
   }
 
   public boolean checkUser(String email,String password) throws SQLException{
+    System.out.println("email:"+email+",pass"+password);
     String query = "select email from user where email='"+email+"' and password='"+password+"'";
     ResultSet resultSet = DataBase.getStatement().executeQuery(query);
     boolean isFound = false;

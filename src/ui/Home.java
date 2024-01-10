@@ -7,7 +7,10 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -26,10 +29,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import model.getInfo;
+import model.returnResult;
 import mswing.CustomButton;
 import mswing.CustomCheckbox;
 import mswing.CustomComboBox;
@@ -57,6 +63,8 @@ public class Home implements MouseListener,ActionListener{
   CustomCheckbox c4;
   CustomCheckbox c5;
   CustomCheckbox c6;
+
+  JPanel card1Main ;
 
 
 
@@ -150,17 +158,12 @@ public class Home implements MouseListener,ActionListener{
     c5 = new CustomCheckbox();
     c6 = new CustomCheckbox();
 
-
     c1.setText("rekrute.com");
     c2.setText("m-job.ma");
     c3.setText("announce.ma");
     c4.setText("emploi.ma");
     c5.setText("marocannonces.com");
     c6.setText("talentspartners.com");
-
-
-
-    
 
 
 
@@ -226,7 +229,7 @@ public class Home implements MouseListener,ActionListener{
     card1Header.add(Box.createRigidArea(new  Dimension(0, 30)));
 
 
-    JPanel card1Main = new JPanel();
+    card1Main = new JPanel();
     card1Main.setLayout(fl);
 
     // JFileChooser fileChooser = new JFileChooser();
@@ -242,8 +245,8 @@ public class Home implements MouseListener,ActionListener{
     card1.add(card1Header,BorderLayout.NORTH);
     card1.add(card1Main);
     
-    new OfferCard(card1Main,new Color(0x74C0FC),"UI/UX designer","Google");
-    new OfferCard(card1Main,new Color(0xFFE066),"Datascientest","Airbnb");
+    // new OfferCard(card1Main,new Color(0x74C0FC),"UI/UX designer","Google");
+    // new OfferCard(card1Main,new Color(0xFFE066),"Datascientest","Airbnb");
     // new OfferCard(card1Main,new Color(0xFFE066),"Datascientest","Airbnb");
     // new OfferCard(card1Main,new Color(0x74C0FC),"UI/UX designer","Google");
 
@@ -363,7 +366,7 @@ public class Home implements MouseListener,ActionListener{
         sites.add("rekrute.com");
       }
       if(c2.isSelected()){
-        sites.add("emploi.ma");
+        sites.add("m-job.ma");
       }
       if(c3.isSelected()){
         sites.add( "announce.ma");
@@ -383,11 +386,45 @@ public class Home implements MouseListener,ActionListener{
       String selectedContras = (String) contrasCombo.getSelectedItem();
       selectedContras = selectedContras.toLowerCase();
 
+      getInfo infoInstance = new getInfo();
 
-      System.out.println(sector);
-      System.out.println("sites = "+ sites);
-      System.out.println(selectedCity);
-      System.out.println(selectedContras);
+      // Call the method
+      List<returnResult> resultSet = null;
+      try {
+        System.out.println("sites" + sites);
+        resultSet = infoInstance.findOffres(sector, selectedCity, selectedContras, sites);
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+
+      // frame.invalidate();
+      // frame.validate();
+      // frame.repaint();
+      SwingUtilities.updateComponentTreeUI(card1Main);
+      card1Main.removeAll();
+      int counter = 1;
+
+      if(resultSet.size() == 0){
+        System.out.println("no data found");
+        card1Main.add(new JLabel("no data found"));
+      }
+      for(returnResult rs : resultSet){
+          new OfferCard(card1Main,new Color(0x74C0FC),rs.Title,rs.CompanyName,rs.PublicationDate,rs.SiteName);
+          System.out.println("Title : " + rs.Title);
+          System.out.println("CompanyName : " + rs.CompanyName);
+          System.out.println("PublicationDate : " + rs.PublicationDate);
+          System.out.println("SiteName : " + rs.SiteName);
+          counter++;
+          if(counter > 6){
+            break;
+          }
+      }
+
+
+      // System.out.println(sector);
+      // System.out.println("sites = "+ sites);
+      // System.out.println(selectedCity);
+      // System.out.println(selectedContras);
 
     }
   }
@@ -397,7 +434,7 @@ public class Home implements MouseListener,ActionListener{
 //  -------------------OFFER CARD CLASS------------------------
 
 class OfferCard extends CustomPanel {
-  public OfferCard(JPanel parent,Color color,String jobTitle,String company){
+  public OfferCard(JPanel parent,Color color,String jobTitle,String company,String date,String site){
 
     CustomPanel offerCard = new CustomPanel();
     offerCard.setBackground(Color.WHITE);
@@ -451,11 +488,11 @@ class OfferCard extends CustomPanel {
     datesiteContainer.setBackground(Color.WHITE);
     datesiteContainer.setAlignmentX(LEFT_ALIGNMENT);
 
-    JLabel datePost = new JLabel("poseted on "+"01/12/2023");
+    JLabel datePost = new JLabel("poseted on "+date);
     datePost.setFont(new Font("arial",Font.PLAIN,10));
     datePost.setForeground(new Color(0xbbbbbb));
     
-    JLabel sitePost = new JLabel("via "+"rekrut.ma");
+    JLabel sitePost = new JLabel("via "+site);
     sitePost.setFont(new Font("arial",Font.PLAIN,10));
     sitePost.setForeground(new Color(0xbbbbbb));
 
