@@ -1,18 +1,63 @@
 package model;
 
 public class Company {
-    public int id_offre;
-    public String CompanyAdresse;
-    public String CompanyWebsite;
-    public String CompanyName;
-    public String CompanyDescription;
+    private int idOffre;
+    private String companyAdresse;
+    private String companyWebsite;
+    private String companyName;
+    private String companyDescription;
 
-    public Company(int id_offre, String CompanyAdresse, String CompanyDescription, String CompanyWebsite, String CompanyName){
-        this.id_offre = id_offre;
-        this.CompanyAdresse = CompanyAdresse;
-        this.CompanyDescription = CompanyDescription;
-        this.CompanyWebsite = CompanyWebsite;
-        this.CompanyName = CompanyName;
-        
+    // Getter and Setter methods for all attributes
+
+    public int getIdOffre() {
+        return idOffre;
     }
+
+    public void setIdOffre(int idOffre) {
+        this.idOffre = idOffre;
+    }
+
+    public String getCompanyAdresse() {
+        return companyAdresse;
+    }
+
+    public void setCompanyAdresse(String companyAdresse) {
+        this.companyAdresse = companyAdresse;
+    }
+
+    public String getCompanyWebsite() {
+        return companyWebsite;
+    }
+
+    public void setCompanyWebsite(String companyWebsite) {
+        this.companyWebsite = companyWebsite;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getCompanyAddress() {
+        return companyAdresse;
+    }
+
+    public void setCompanyAddress(String companyAdd) {
+        this.companyAdresse = companyAdd;
+    }
+
+    public String getCompanyDescription() {
+        return companyDescription;
+    }
+
+    public void setCompanyDescription(String companyDescription) {
+        this.companyDescription = companyDescription;
+    }
+
+    // Other methods as needed
 }
+
+

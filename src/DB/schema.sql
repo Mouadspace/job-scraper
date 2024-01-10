@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 09, 2024 at 04:03 PM
+-- Generation Time: Jan 10, 2024 at 01:11 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `Company` (
+  `id_company` int(11) NOT NULL,
   `id_offre` int(11) DEFAULT NULL,
   `CompanyAdresse` varchar(255) DEFAULT NULL,
   `CompanyWebsite` varchar(255) DEFAULT NULL,
@@ -42,6 +43,7 @@ CREATE TABLE `Company` (
 --
 
 CREATE TABLE `Langue` (
+  `id_langue` int(11) NOT NULL,
   `id_offre` int(11) DEFAULT NULL,
   `langueName` varchar(255) DEFAULT NULL,
   `level` varchar(255) DEFAULT NULL
@@ -69,7 +71,7 @@ CREATE TABLE `Offre` (
   `EducationLevel` varchar(255) DEFAULT NULL,
   `Diploma` varchar(255) DEFAULT NULL,
   `ExperienceLevel` varchar(255) DEFAULT NULL,
-  `SearchedProfile` varchar(255) DEFAULT NULL,
+  `SearchedProfile` text DEFAULT NULL,
   `PersonalityTraits` varchar(255) DEFAULT NULL,
   `RecommandedCompetence` varchar(255) DEFAULT NULL,
   `Salary` varchar(255) DEFAULT NULL,
@@ -85,6 +87,7 @@ CREATE TABLE `Offre` (
 --
 
 CREATE TABLE `skill` (
+  `id_skill` int(11) NOT NULL,
   `id_offre` int(11) DEFAULT NULL,
   `skillName` varchar(255) DEFAULT NULL,
   `skillType` varchar(255) DEFAULT NULL
@@ -117,12 +120,14 @@ INSERT INTO `user` (`id_user`, `email`, `password`) VALUES
 -- Indexes for table `Company`
 --
 ALTER TABLE `Company`
+  ADD PRIMARY KEY (`id_company`),
   ADD KEY `id_offre` (`id_offre`);
 
 --
 -- Indexes for table `Langue`
 --
 ALTER TABLE `Langue`
+  ADD PRIMARY KEY (`id_langue`),
   ADD KEY `id_offre` (`id_offre`);
 
 --
@@ -135,6 +140,7 @@ ALTER TABLE `Offre`
 -- Indexes for table `skill`
 --
 ALTER TABLE `skill`
+  ADD PRIMARY KEY (`id_skill`),
   ADD KEY `id_offre` (`id_offre`);
 
 --
@@ -146,6 +152,30 @@ ALTER TABLE `user`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `Company`
+--
+ALTER TABLE `Company`
+  MODIFY `id_company` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Langue`
+--
+ALTER TABLE `Langue`
+  MODIFY `id_langue` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Offre`
+--
+ALTER TABLE `Offre`
+  MODIFY `id_offre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+
+--
+-- AUTO_INCREMENT for table `skill`
+--
+ALTER TABLE `skill`
+  MODIFY `id_skill` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`

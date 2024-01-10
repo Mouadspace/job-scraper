@@ -1,14 +1,37 @@
 package model;
 
-
 public class Skill {
-    public int id_offre;
-    public String skillName;
-    public String skillType;
-    
-    public Skill(int id_offre, String skillName, String skillType){
-        this.id_offre = id_offre;
+    private int idOffre;
+    private String skillName;
+    private String skillType;
+
+    // Getter and Setter methods for all attributes
+
+    public int getIdOffre() {
+        return idOffre;
+    }
+
+    public void setIdOffre(int idOffre) {
+        this.idOffre = idOffre;
+    }
+
+    public String getSkillName() {
+        return skillName;
+    }
+
+    public void setSkillName(String skillName) {
         this.skillName = skillName;
+    }
+
+    public String getSkillType() {
+        return skillType;
+    }
+
+    public void setSkillType(String skillType) {
         this.skillType = skillType;
     }
+
+    // Other methods as needed
 }
+
+

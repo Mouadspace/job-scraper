@@ -3,7 +3,7 @@ import java.io.IOException;
 
 import ui.Home;
 // import ui.Login;
-import ui.Register;
+// import ui.Register;
 
 public class App {
     

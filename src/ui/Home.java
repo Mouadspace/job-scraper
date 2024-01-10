@@ -1,5 +1,7 @@
 package ui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.BorderLayout;
@@ -15,6 +17,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -23,11 +26,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import mswing.CustomButton;
+import mswing.CustomCheckbox;
+import mswing.CustomComboBox;
 import mswing.CustomField;
 import mswing.CustomFrame;
 import mswing.CustomPanel;
 
-public class Home implements MouseListener{
+public class Home implements MouseListener,ActionListener{
   CustomFrame frame;
   JPanel topPanel ;
   JPanel sidePanel;
@@ -36,10 +41,18 @@ public class Home implements MouseListener{
   JLabel sidepanelLabel1;
   JLabel sidepanelLabel2;
   JLabel sidepanelLabel3;
+  CustomField searchField;
+  CustomButton submitButton;
+
+  CustomCheckbox c1;
+  CustomCheckbox c2;
+  CustomCheckbox c3;
+  CustomCheckbox c4;
 
 
 
   public Home(){
+    // BORDERS
     Border buttomBorder = BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0xcccccc));
     Border rightBorder = BorderFactory.createMatteBorder(0, 0, 0, 1, new Color(0xcccccc));
     Border emptyBorder = BorderFactory.createEmptyBorder(20, 20, 20, 40);
@@ -54,18 +67,25 @@ public class Home implements MouseListener{
     mainPanel = new JPanel();
 
     
-    cardLayout = new CardLayout();
+    // MAIN PANEL (CARD LAYOUT)
     mainPanel.setBackground(new Color(0xF1F3F5));
+    cardLayout = new CardLayout();
     mainPanel.setLayout(cardLayout);
+    
+    // CARDS OF MAIN PANEL 
     JPanel card1 = new JPanel();
     JPanel card2 = new JPanel();
     JPanel card3 = new JPanel();
 
+    // ADDING CARDS TO MAIN PANEL
     mainPanel.add(card1,"card 1");
     mainPanel.add(card2,"card 2");
     mainPanel.add(card3,"card 3");
-
+    
+    // DEFAULT CARD = CARD 1 = CLASSIC SEARCH
     cardLayout.show(mainPanel,"card 1");
+
+
     FlowLayout fl = new FlowLayout();
     fl.setVgap(10);
     fl.setHgap(30);
@@ -77,22 +97,61 @@ public class Home implements MouseListener{
     // new OfferCard(card1,new Color(0xC0EB75),"U");
     // new OfferCard(card1,new Color(0xC0EB75),"U");
 
-    CustomField searchField = new CustomField();
+    searchField = new CustomField();
     searchField.setPreferredSize(new Dimension(300,35));
-    CustomButton submitButton = new CustomButton();
+    submitButton = new CustomButton();
     submitButton.setText("Find Job");
     submitButton.setBorder(new EmptyBorder(10, 10, 10, 10));
     submitButton.setBackground(new Color(0x6A70E0));
     submitButton.setBorderRadius(16);
     submitButton.setForeground(Color.WHITE);
+    submitButton.addActionListener(this);
+
+
+    c1 = new CustomCheckbox();
+    c2 = new CustomCheckbox();
+    c3 = new CustomCheckbox();
+    c4 = new CustomCheckbox();
+
+    c1.setText("rekrute.com");
+    c2.setText("emploi.ma");
+    c3.setText("announce.ma");
+
+
+    JPanel card1HeaderTop = new JPanel();
+    JPanel card1HeaderMiddle = new JPanel();
+    JPanel card1HeaderBottom = new JPanel();
+
+
+    // HEADER => MIDDLE
+    String[] cities = {"casa","kenitra","rabat"};
+    CustomComboBox<String> citiesCombo = new CustomComboBox<String>();
+    citiesCombo.setLabeText("Cities");
+    citiesCombo.setModel(new javax.swing.DefaultComboBoxModel<String>(cities));
+    citiesCombo.setLineColor(new Color(0x6A70E0));
+    citiesCombo.setSelectedIndex(-1);
+    card1HeaderMiddle.add(citiesCombo);
+
 
     JPanel card1Header = new JPanel();
+    card1Header.setLayout(new BoxLayout(card1Header,BoxLayout.Y_AXIS));
+    
     FlowLayout fl2 = new FlowLayout();
-    fl2.setVgap(30);
-    card1Header.setLayout(fl2);
-    card1Header.setPreferredSize(new Dimension(0,100));
-    card1Header.add(searchField);
-    card1Header.add(submitButton);
+    card1HeaderTop.setLayout(fl2);
+
+    card1HeaderBottom.add(c1);
+    card1HeaderBottom.add(c2);
+    card1HeaderBottom.add(c3);
+
+    card1HeaderTop.add(searchField); 
+    card1HeaderTop.add(submitButton);
+    
+    card1Header.add(Box.createRigidArea(new  Dimension(0, 30)));
+    card1Header.add(card1HeaderTop);
+    card1Header.add(card1HeaderBottom);
+    card1Header.add(Box.createRigidArea(new  Dimension(0, 30)));
+    card1Header.add(card1HeaderMiddle);
+
 
     JPanel card1Main = new JPanel();
     card1Main.setLayout(fl);
@@ -106,6 +165,10 @@ public class Home implements MouseListener{
     
     new OfferCard(card1Main,new Color(0x74C0FC),"UI/UX designer","Google");
     new OfferCard(card1Main,new Color(0xFFE066),"Datascientest","Airbnb");
+    // new OfferCard(card1Main,new Color(0xFFE066),"Datascientest","Airbnb");
+    // new OfferCard(card1Main,new Color(0x74C0FC),"UI/UX designer","Google");
+
+
 
 
 
@@ -193,6 +256,8 @@ public class Home implements MouseListener{
     if(event.getSource() == sidepanelLabel3){
       cardLayout.show(mainPanel,"card 3");
     }
+    
+
 
   }
   @Override
@@ -206,6 +271,25 @@ public class Home implements MouseListener{
   }
   @Override
   public void mouseReleased(MouseEvent event) {
+  }
+  @Override
+  public void actionPerformed(ActionEvent event) {
+    if(event.getSource() == submitButton){
+      System.out.println("text = " + searchField.getText() );
+      searchField.setText("");
+      String sites = "";
+      if(c1.isSelected()){
+        sites += "rekrute.com ";
+      }
+      if(c2.isSelected()){
+        sites += "emploi.ma ";
+      }
+      if(c3.isSelected()){
+        sites += "announce.ma ";
+      }
+
+      System.out.println("sites = "+ sites);
+    }
   }
 }
 
