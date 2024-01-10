@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import DB.DataBase;
 import model.Company;
 import model.Langue;
 import model.Offer;
@@ -179,20 +180,12 @@ public class Scrapper03 {
         }
 
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/web-scraper", "root", "");
-            if (con != null) {
-                System.out.println("Database is connected");
-
-                // Inserting data into the database
-                DatabaseInsertion.insertDataIntoDatabase(con, Data);
-
-                // Closing the database connection
-                con.close();
-            }
+            DataBase.insertDataIntoDatabase(Data);
+            System.out.println("data inserted successfully");
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Error connecting to the database");
-        }		
+        }
     }
 
 	// public static void SAVE() throws IOException {

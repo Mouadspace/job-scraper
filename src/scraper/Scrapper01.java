@@ -12,14 +12,14 @@
 
 // import DB.DataBase;
 // import model.Company;
-// import model.Language;
-// import model.Offre;
+// import model.Langue;
+// import model.Offer;
 // import model.Skill;
 
 // public class Scrapper01 {
 //     public static List<Skill> listSkills = new ArrayList<Skill>(); // Table Skill
 //     public static List<Company> listCompanies = new ArrayList<Company>(); // Table Company
-//     public static List<Offre> listOffres = new ArrayList<Offre>(); // Table Offre
+//     public static List<Offer> listOffres = new ArrayList<Offer>(); // Table Offre
 //     public static List<Language> listLangues = new ArrayList<Language>(); // Table Langue
 
 //     public static String ReturnDatePublication(String DP){
