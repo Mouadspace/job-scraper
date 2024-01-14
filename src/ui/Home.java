@@ -6,10 +6,10 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
+// import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
+// import java.util.Arrays;
 import java.util.List;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -19,21 +19,23 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
+// import javax.swing.JComboBox;
+// import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
+import model.OffersPieChart;
 import model.getInfo;
 import model.returnResult;
 import mswing.CustomButton;
@@ -54,8 +56,13 @@ public class Home implements MouseListener,ActionListener{
   JLabel sidepanelLabel3;
   CustomField searchField;
   CustomButton submitButton;
+  CustomButton chartsButton;
+  CustomButton trainingMlButton;
+  CustomButton predictClassMlButton;
+
   CustomComboBox<String> contrasCombo;
   CustomComboBox<String> citiesCombo;
+  CustomComboBox<String> chartsCombo;
 
   CustomCheckbox c1;
   CustomCheckbox c2;
@@ -65,6 +72,7 @@ public class Home implements MouseListener,ActionListener{
   CustomCheckbox c6;
 
   JPanel card1Main ;
+  JLabel mlResult;
 
 
 
@@ -243,7 +251,13 @@ public class Home implements MouseListener,ActionListener{
 
     submitButton.setFocusable(false);
     card1.add(card1Header,BorderLayout.NORTH);
-    card1.add(card1Main);
+    JScrollPane scroller = new JScrollPane( card1Main );
+    // ,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+    // JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+    // card1Main.setLayout();
+    
+    scroller.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+    card1.add(scroller);
     
     // new OfferCard(card1Main,new Color(0x74C0FC),"UI/UX designer","Google");
     // new OfferCard(card1Main,new Color(0xFFE066),"Datascientest","Airbnb");
@@ -257,10 +271,73 @@ public class Home implements MouseListener,ActionListener{
 
 
     // AI POWERD SEARCH
-    card2.setBackground(Color.orange);
+    trainingMlButton = new CustomButton();
+    trainingMlButton.setText("ML MODELS");
+    trainingMlButton.setBorder(new EmptyBorder(10, 10, 10, 10));
+    trainingMlButton.setBackground(new Color(0x6A70E0));
+    trainingMlButton.setBorderRadius(16);
+    trainingMlButton.setForeground(Color.WHITE);
+    trainingMlButton.addActionListener(this);
+    trainingMlButton.setFocusable(false);
+
+    predictClassMlButton = new CustomButton();
+    predictClassMlButton.setText("PREDICT EXPERIENCE");
+    predictClassMlButton.setBorder(new EmptyBorder(10, 10, 10, 10));
+    predictClassMlButton.setBackground(new Color(0x6A70E0));
+    predictClassMlButton.setBorderRadius(16);
+    predictClassMlButton.setForeground(Color.WHITE);
+    predictClassMlButton.addActionListener(this);
+    predictClassMlButton.setFocusable(false);
+
+    mlResult = new JLabel();
+    
 
 
 
+
+    // card2.setLayout();
+    JPanel panel0 = new JPanel();
+    panel0.add(trainingMlButton);
+    panel0.add(predictClassMlButton);
+
+    JPanel panel = new JPanel();
+    panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
+    
+    panel.add(Box.createRigidArea(new  Dimension(0, 15)));
+    panel.add(panel0);
+    panel.add(Box.createRigidArea(new  Dimension(0, 15)));
+    mlResult.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+    panel.add(mlResult);
+    card2.add(panel);
+    
+
+    // GRAPHICS 
+    String[] charts = { "Offers by City", "Intérim", "CDD", "Freelance",
+    "Stage"};
+    chartsCombo = new CustomComboBox<String>();
+    chartsCombo.setFocusable(false);
+    chartsCombo.setPreferredSize(new Dimension(185,40));
+    chartsCombo.setLabeText("Charts");
+    chartsCombo.setModel(new javax.swing.DefaultComboBoxModel<String>(charts));
+    chartsCombo.setLineColor(new Color(0x6A70E0));
+    chartsCombo.setSelectedIndex(-1);
+
+    chartsButton = new CustomButton();
+    chartsButton.setText("Show Chart");
+    chartsButton.setBorder(new EmptyBorder(10, 10, 10, 10));
+    chartsButton.setBackground(new Color(0x6A70E0));
+    chartsButton.setBorderRadius(16);
+    chartsButton.setForeground(Color.WHITE);
+    chartsButton.addActionListener(this);
+    chartsButton.setFocusable(false);
+
+    JPanel panel2 = new JPanel();
+
+
+    panel2.add(chartsCombo);
+    panel2.add(chartsButton);
+    card3.add(panel2);
+    
   
 
     topPanel.setPreferredSize(new Dimension(0,35));
@@ -372,7 +449,7 @@ public class Home implements MouseListener,ActionListener{
         sites.add( "announce.ma");
       }
       if(c4.isSelected()){
-        sites.add( "emploi.ma");
+        sites.add( "Emploi.ma");
       }
       if(c5.isSelected()){
         sites.add("marocannonces.com");
@@ -402,31 +479,40 @@ public class Home implements MouseListener,ActionListener{
       // frame.repaint();
       SwingUtilities.updateComponentTreeUI(card1Main);
       card1Main.removeAll();
-      int counter = 1;
 
       if(resultSet.size() == 0){
         System.out.println("no data found");
         card1Main.add(new JLabel("no data found"));
       }
       for(returnResult rs : resultSet){
-          new OfferCard(card1Main,new Color(0x74C0FC),rs.Title,rs.CompanyName,rs.PublicationDate,rs.SiteName);
+          new OfferCard(card1Main,new Color(0x6A70E0),rs.Title,rs.CompanyName,rs.PublicationDate,rs.SiteName);
           System.out.println("Title : " + rs.Title);
           System.out.println("CompanyName : " + rs.CompanyName);
           System.out.println("PublicationDate : " + rs.PublicationDate);
           System.out.println("SiteName : " + rs.SiteName);
-          counter++;
-          if(counter > 6){
-            break;
-          }
       }
 
-
-      // System.out.println(sector);
-      // System.out.println("sites = "+ sites);
-      // System.out.println(selectedCity);
-      // System.out.println(selectedContras);
-
     }
+
+    if(event.getSource() == chartsButton){
+      String selectedChart = (String) chartsCombo.getSelectedItem();
+      int selectedChartIndex = chartsCombo.getSelectedIndex();
+
+      System.out.println("selectedChart : "+ selectedChart);
+      if(selectedChartIndex == 0){
+        new OffersPieChart();
+      }
+    }
+
+    if(event.getSource() == trainingMlButton){
+      mlResult.setText("ml result");
+    }
+    if(event.getSource() == predictClassMlButton){
+      mlResult.setText("prediction result");
+      
+    }
+
+
   }
 }
 

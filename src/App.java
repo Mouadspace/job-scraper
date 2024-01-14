@@ -2,7 +2,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 
 import ui.Home;
-import ui.Register;
+// import ui.Register;
 // import ui.Login;
 
 public class App {

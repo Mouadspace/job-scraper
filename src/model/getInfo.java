@@ -1,19 +1,19 @@
 package model;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
+// import java.io.FileOutputStream;
+// import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
+// import java.util.Scanner;
 
 
 // import org.apache.poi.ss.usermodel.*;
 // import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import DB.DBConnection;
-import DB.DataBase;
+// import DB.DataBase;
 
 public class getInfo {
     public String condSector = "informatique";
@@ -26,13 +26,13 @@ public class getInfo {
     public List<returnResult> resultSet = new ArrayList<returnResult>();
     
     public List<returnResult>  findOffres(String condSector, String condCity, String condContractType, List<String> sitesSelected) throws SQLException {
-        String sql;
+        // String sql;
         // ResultSet returnResult = null;
         ResultSet rs;
-        int number = 0;
+        // int number = 0;
         String condCompanyName = "";
         String condRemoteWork = "";
-        String sqlRequest;
+        // String sqlRequest;
 
         // Workbook workbook = new XSSFWorkbook();
         // Sheet sheet = workbook.createSheet("Offre Data");
@@ -129,27 +129,27 @@ public class getInfo {
             // ----------
             resultSet.add(new returnResult(Title, CompanyName, PublicationDate, SiteName));
             // ----------
-            String OffreLink = rs.getString("OffreLink");
-            String ApplyDate = rs.getString("ApplyDate");
-            String OffreDescription = rs.getString("OffreDescription");
-            String Region = rs.getString("Region");
-            String City = rs.getString("City");
-            String Sectors = rs.getString("Sectors");
-            String Occupation = rs.getString("Occupation");
-            String ContractType = rs.getString("ContractType");
-            String EducationLevel = rs.getString("EducationLevel");
-            String Diploma = rs.getString("Diploma");
-            String ExperienceLevel = rs.getString("ExperienceLevel");
-            String SearchedProfile = rs.getString("SearchedProfile");
-            String PersonalityTraits = rs.getString("PersonalityTraits");
-            String RecommandedCompetence = rs.getString("RecommandedCompetence");
-            String Salary = rs.getString("Salary");
-            String SocialAdvantages = rs.getString("SocialAdvantages");
-            String RemoteWork = rs.getString("RemoteWork");
-            String NumberOfPosts = rs.getString("NumberOfPosts");
-            String CompanyAdresse = rs.getString("ExperienceLevel");
-            String CompanyWebsite = rs.getString("CompanyWebsite");
-            String CompanyDescription = rs.getString("CompanyDescription");
+            // String OffreLink = rs.getString("OffreLink");
+            // String ApplyDate = rs.getString("ApplyDate");
+            // String OffreDescription = rs.getString("OffreDescription");
+            // String Region = rs.getString("Region");
+            // String City = rs.getString("City");
+            // String Sectors = rs.getString("Sectors");
+            // String Occupation = rs.getString("Occupation");
+            // String ContractType = rs.getString("ContractType");
+            // String EducationLevel = rs.getString("EducationLevel");
+            // String Diploma = rs.getString("Diploma");
+            // String ExperienceLevel = rs.getString("ExperienceLevel");
+            // String SearchedProfile = rs.getString("SearchedProfile");
+            // String PersonalityTraits = rs.getString("PersonalityTraits");
+            // String RecommandedCompetence = rs.getString("RecommandedCompetence");
+            // String Salary = rs.getString("Salary");
+            // String SocialAdvantages = rs.getString("SocialAdvantages");
+            // String RemoteWork = rs.getString("RemoteWork");
+            // String NumberOfPosts = rs.getString("NumberOfPosts");
+            // String CompanyAdresse = rs.getString("ExperienceLevel");
+            // String CompanyWebsite = rs.getString("CompanyWebsite");
+            // String CompanyDescription = rs.getString("CompanyDescription");
 
         //     row = sheet.createRow(rowNum++);
         //     row.createCell(0).setCellValue(Title);

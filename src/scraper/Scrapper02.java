@@ -17,14 +17,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+// import org.apache.poi.ss.usermodel.Cell;
+// import org.apache.poi.ss.usermodel.CellStyle;
+// import org.apache.poi.ss.usermodel.Font;
+// import org.apache.poi.ss.usermodel.IndexedColors;
+// import org.apache.poi.ss.usermodel.Row;
+// import org.apache.poi.ss.usermodel.Sheet;
+// import org.apache.poi.ss.usermodel.Workbook;
+// import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Scrapper02 {
     private static String[] columns = {"Postname","Apply","Website","Publication Date","Application Deadline","Company Adress","Company website","Company Name","Company Description","Offer Description","Region","City","Sector","Occupation","Contract Type","Educational Level","Diploma","Experience","Required Profile","Soft Skills","Hard Skills","Language","Salary","Recommanded Competence","Social Advantages","Remote Work","Post(s)"};
@@ -203,69 +203,69 @@ public class Scrapper02 {
         // }		
     }
 	
-	public static void SAVE() throws IOException {
-		Workbook workbook = new XSSFWorkbook();
-		try {
-			Sheet sheet = workbook.createSheet("rekrute");
+	// public static void SAVE() throws IOException {
+	// 	Workbook workbook = new XSSFWorkbook();
+	// 	try {
+	// 		Sheet sheet = workbook.createSheet("rekrute");
 
-			Font headerFont = workbook.createFont();
-			headerFont.setBold(true);
-			headerFont.setFontHeightInPoints((short) 14);
-			headerFont.setColor(IndexedColors.RED.getIndex());
+	// 		Font headerFont = workbook.createFont();
+	// 		headerFont.setBold(true);
+	// 		headerFont.setFontHeightInPoints((short) 14);
+	// 		headerFont.setColor(IndexedColors.RED.getIndex());
 
-			CellStyle headerCellStyle = workbook.createCellStyle();
-			headerCellStyle.setFont(headerFont);
+	// 		CellStyle headerCellStyle = workbook.createCellStyle();
+	// 		headerCellStyle.setFont(headerFont);
 
-			Row headerRow = sheet.createRow(0);
+	// 		Row headerRow = sheet.createRow(0);
 
-			for (int i = 0; i < columns.length; i++) {
-				Cell cell = headerRow.createCell(i);
-				cell.setCellValue(columns[i]);
-				cell.setCellStyle(headerCellStyle);
-			}
+	// 		for (int i = 0; i < columns.length; i++) {
+	// 			Cell cell = headerRow.createCell(i);
+	// 			cell.setCellValue(columns[i]);
+	// 			cell.setCellStyle(headerCellStyle);
+	// 		}
 
-			int rowNum = 1;
+	// 		int rowNum = 1;
 
-			for (Offer data : Data) {
-				Row row = sheet.createRow(rowNum++);
-				row.createCell(0).setCellValue(data.getTitle());
-				row.createCell(1).setCellValue(data.getOffreLink());
-				row.createCell(2).setCellValue(data.getSiteName());
-				row.createCell(3).setCellValue(data.getPublicationDate());
-				row.createCell(4).setCellValue(data.getApplyDate());
-				row.createCell(5).setCellValue(data.getCompany().getCompanyAddress()); // Assuming there's a method like getCompanyAddress()
-				row.createCell(6).setCellValue(data.getCompany().getCompanyWebsite()); // Assuming there's a method like getCompanyWebsite()
-				row.createCell(7).setCellValue(data.getCompany().getCompanyName());
-				row.createCell(8).setCellValue(data.getCompany().getCompanyDescription());
-				row.createCell(9).setCellValue(data.getOffreDescription());
-				row.createCell(10).setCellValue(data.getRegion());
-				row.createCell(11).setCellValue(data.getCity());
-				row.createCell(12).setCellValue(data.getSectors());
-				row.createCell(13).setCellValue(data.getOccupation());
-				row.createCell(14).setCellValue(data.getContractType());
-				row.createCell(15).setCellValue(data.getEducationLevel());
-				row.createCell(16).setCellValue(data.getDiploma());
-				row.createCell(17).setCellValue(data.getExperienceLevel());
-				row.createCell(18).setCellValue(data.getSearchedProfile());
-				row.createCell(19).setCellValue(data.getPersonalityTraits());
-				row.createCell(20).setCellValue(""); //for the hardskills
-				row.createCell(21).setCellValue(data.getLangue().getLangueName());
-				row.createCell(22).setCellValue(data.getSalary());
-				row.createCell(23).setCellValue(data.getRecommandedCompetence());
-				row.createCell(24).setCellValue(data.getSocialAdvantages());
-				row.createCell(25).setCellValue(data.getRemoteWork());
-				row.createCell(26).setCellValue(data.getNumberOfPosts());
+	// 		for (Offer data : Data) {
+	// 			Row row = sheet.createRow(rowNum++);
+	// 			row.createCell(0).setCellValue(data.getTitle());
+	// 			row.createCell(1).setCellValue(data.getOffreLink());
+	// 			row.createCell(2).setCellValue(data.getSiteName());
+	// 			row.createCell(3).setCellValue(data.getPublicationDate());
+	// 			row.createCell(4).setCellValue(data.getApplyDate());
+	// 			row.createCell(5).setCellValue(data.getCompany().getCompanyAddress()); // Assuming there's a method like getCompanyAddress()
+	// 			row.createCell(6).setCellValue(data.getCompany().getCompanyWebsite()); // Assuming there's a method like getCompanyWebsite()
+	// 			row.createCell(7).setCellValue(data.getCompany().getCompanyName());
+	// 			row.createCell(8).setCellValue(data.getCompany().getCompanyDescription());
+	// 			row.createCell(9).setCellValue(data.getOffreDescription());
+	// 			row.createCell(10).setCellValue(data.getRegion());
+	// 			row.createCell(11).setCellValue(data.getCity());
+	// 			row.createCell(12).setCellValue(data.getSectors());
+	// 			row.createCell(13).setCellValue(data.getOccupation());
+	// 			row.createCell(14).setCellValue(data.getContractType());
+	// 			row.createCell(15).setCellValue(data.getEducationLevel());
+	// 			row.createCell(16).setCellValue(data.getDiploma());
+	// 			row.createCell(17).setCellValue(data.getExperienceLevel());
+	// 			row.createCell(18).setCellValue(data.getSearchedProfile());
+	// 			row.createCell(19).setCellValue(data.getPersonalityTraits());
+	// 			row.createCell(20).setCellValue(""); //for the hardskills
+	// 			row.createCell(21).setCellValue(data.getLangue().getLangueName());
+	// 			row.createCell(22).setCellValue(data.getSalary());
+	// 			row.createCell(23).setCellValue(data.getRecommandedCompetence());
+	// 			row.createCell(24).setCellValue(data.getSocialAdvantages());
+	// 			row.createCell(25).setCellValue(data.getRemoteWork());
+	// 			row.createCell(26).setCellValue(data.getNumberOfPosts());
 
-			}
+	// 		}
 
-			FileOutputStream fileOut = new FileOutputStream("rekrute.xlsx");
-			workbook.write(fileOut);
-			fileOut.close();
-		} finally {
-			if (workbook != null) {
-				workbook.close();
-			}
-		}
-	}
+	// 		FileOutputStream fileOut = new FileOutputStream("rekrute.xlsx");
+	// 		workbook.write(fileOut);
+	// 		fileOut.close();
+	// 	} finally {
+	// 		if (workbook != null) {
+	// 			workbook.close();
+	// 		}
+	// 	}
+	// }
 
 }
