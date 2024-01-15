@@ -222,6 +222,7 @@ public class Register implements ActionListener, MouseListener{
     linkLabel.setForeground(new Color(0x6A70E0));
     linkLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
     linkLabel.addMouseListener(this);
+    
 
 
     JPanel bottomPanel = new JPanel();
