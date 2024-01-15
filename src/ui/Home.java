@@ -1,11 +1,12 @@
 package ui;
-
+import java.util.concurrent.ThreadLocalRandom;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 // import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -35,7 +36,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-import model.OffersPieChart;
+import ml.ML;
+import model.Piecharts;
 import model.getInfo;
 import model.returnResult;
 import mswing.CustomButton;
@@ -44,6 +46,9 @@ import mswing.CustomComboBox;
 import mswing.CustomField;
 import mswing.CustomFrame;
 import mswing.CustomPanel;
+import weka.classifiers.Evaluation;
+import weka.classifiers.trees.J48;
+import weka.core.Instances;
 
 public class Home implements MouseListener,ActionListener{
   CustomFrame frame;
@@ -307,36 +312,50 @@ public class Home implements MouseListener,ActionListener{
     panel.add(panel0);
     panel.add(Box.createRigidArea(new  Dimension(0, 15)));
     mlResult.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+    mlResult.setPreferredSize(new Dimension(500,300));
     panel.add(mlResult);
     card2.add(panel);
     
 
     // GRAPHICS 
-    String[] charts = { "Offers by City", "Intérim", "CDD", "Freelance",
-    "Stage"};
-    chartsCombo = new CustomComboBox<String>();
-    chartsCombo.setFocusable(false);
-    chartsCombo.setPreferredSize(new Dimension(185,40));
-    chartsCombo.setLabeText("Charts");
-    chartsCombo.setModel(new javax.swing.DefaultComboBoxModel<String>(charts));
-    chartsCombo.setLineColor(new Color(0x6A70E0));
-    chartsCombo.setSelectedIndex(-1);
+    // String[] charts = { "Offers by City", "Intérim", "CDD", "Freelance",
+    // "Stage"};
+    // chartsCombo = new CustomComboBox<String>();
+    // chartsCombo.setFocusable(false);
+    // chartsCombo.setPreferredSize(new Dimension(185,40));
+    // chartsCombo.setLabeText("Charts");
+    // chartsCombo.setModel(new javax.swing.DefaultComboBoxModel<String>(charts));
+    // chartsCombo.setLineColor(new Color(0x6A70E0));
+    // chartsCombo.setSelectedIndex(-1);
 
-    chartsButton = new CustomButton();
-    chartsButton.setText("Show Chart");
-    chartsButton.setBorder(new EmptyBorder(10, 10, 10, 10));
-    chartsButton.setBackground(new Color(0x6A70E0));
-    chartsButton.setBorderRadius(16);
-    chartsButton.setForeground(Color.WHITE);
-    chartsButton.addActionListener(this);
-    chartsButton.setFocusable(false);
+    // chartsButton = new CustomButton();
+    // chartsButton.setText("Show Chart");
+    // chartsButton.setBorder(new EmptyBorder(10, 10, 10, 10));
+    // chartsButton.setBackground(new Color(0x6A70E0));
+    // chartsButton.setBorderRadius(16);
+    // chartsButton.setForeground(Color.WHITE);
+    // chartsButton.addActionListener(this);
+    // chartsButton.setFocusable(false);
 
-    JPanel panel2 = new JPanel();
+    // JPanel panel2 = new JPanel();
 
 
-    panel2.add(chartsCombo);
-    panel2.add(chartsButton);
-    card3.add(panel2);
+    // panel2.add(chartsCombo);
+    // panel2.add(chartsButton);
+    // card3.add(panel2);
+    
+    // JScrollPane scrollPane = new JScrollPane();
+
+
+    Piecharts pie = new Piecharts();
+    // pie.setPreferredSize(new Dimension( 2000,2000));
+    JScrollPane scrollFrame = new JScrollPane( pie);
+    // ,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+    // JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+    scrollFrame.setPreferredSize(new Dimension(750,500));
+    scrollFrame.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+    pie.setAutoscrolls(true);
+    card3.add(scrollFrame);
     
   
 
@@ -500,16 +519,66 @@ public class Home implements MouseListener,ActionListener{
 
       System.out.println("selectedChart : "+ selectedChart);
       if(selectedChartIndex == 0){
-        new OffersPieChart();
+        new Piecharts();
       }
     }
 
     if(event.getSource() == trainingMlButton){
-      mlResult.setText("ml result");
+      Instances data;
+      Evaluation eval = null; 
+      J48 classifier = null;
+      try {
+        data = ML.returnData();
+        // Return the Classifier
+        classifier =  ML.returnTheClassifier(data);
+
+        // Return the Evualation
+        eval =  ML.returnEval(data, classifier);
+
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+
+      
+
+      // Display the Evaluation Results
+      // System.out.println();
+      // System.out.println(eval.toSummaryString());
+      // System.out.println("=== Decision Tree Model ===");
+      // System.out.println(classifier);
+      String[] result = eval.toSummaryString().split("%");
+      mlResult.setText("<html>"+"=== Evaluation Results ===<br/>"
+      +result[0] + "<br/>"
+      +result[1] + "<br/>"
+      +result[2] + "<br/>"
+      +result[3] + "<br/>"
+      +"<br/>=== Decision Tree Model ===<br/>"
+      + classifier
+      +"<html/>"
+      );
     }
     if(event.getSource() == predictClassMlButton){
-      mlResult.setText("prediction result");
-      
+      Instances data;
+      Evaluation eval = null; 
+      J48 classifier = null;
+      String predictedClass = null;
+      try {
+        data = ML.returnData();
+        // Return the Classifier
+        classifier =  ML.returnTheClassifier(data);
+
+        // Return the Evualation
+        eval =  ML.returnEval(data, classifier);
+
+        // Return the String of the Predicted Class
+        int randomNum = ThreadLocalRandom.current().nextInt(1,15);
+        predictedClass =  ML.returnPredictedClass(classifier,randomNum);
+        System.out.println("offer "+ randomNum+ ", predicted experience = "+ predictedClass);
+
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      mlResult.setText("prediction : "+predictedClass);
     }
 
 
